@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Restaurants</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'show_restaurants.css' %}">
+</head>
+<body>
+
+    <div class="admin-container">
+        <h2>Restaurant Management</h2>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Restaurant</th>
+                    <th>Picture</th>
+                    <th>Cuisine</th>
+                    <th>Rating</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for r in restaurantList %}
+                <tr>
+                    <td>{{ r.name }}</td>
+                    <td>
+                        <img src="{{ r.picture }}" alt="{{ r.name }}">
+                    </td>
+                    <td>{{ r.cuisine }}</td>
+                    <td>⭐ {{ r.rating }}</td>
+                    <td class="action-cell">
+                        <a class="action-btn update" href="{% url 'open_update_restaurant' r.id %}">
+                            Update Info
+                        </a>
+                        <a class="action-btn menu" href="{% url 'open_update_menu' r.id %}">
+                            Update Menu
+                        </a>
+                        <a class="action-btn delete" href="{% url 'delete_restaurant' r.id %}">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Dark / Light Toggle -->
+    <button class="toggle-mode"></button>
+
+    <script>
+        const toggleBtn = document.querySelector('.toggle-mode');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem(
+                'theme',
+                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+            );
+        });
+    </script>
+
+</body>
+</html>

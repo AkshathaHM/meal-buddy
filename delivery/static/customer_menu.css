@@ -1,0 +1,164 @@
+/* =======================
+   MENU PAGE
+======================= */
+.menu-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.menu-header h3 span {
+    color: var(--primary-color, #ff6b6b);
+}
+
+.cart-btn {
+    text-decoration: none;
+    background-color: var(--primary-color, #ff6b6b);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.cart-btn:hover {
+    background-color: #e85c5c;
+}
+
+/* Table */
+.menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg, #fff);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.menu-table thead {
+    background-color: var(--primary-color, #ff6b6b);
+    color: white;
+}
+
+.menu-table th, .menu-table td {
+    padding: 12px;
+    text-align: center;
+}
+
+.menu-table tbody tr {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.menu-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.menu-table img {
+    width: 90px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Veg / Non-Veg badges */
+.veg-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background-color: #4CAF50; /* green */
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.nonveg-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background-color: #f44336; /* red */
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* Add to Cart button */
+.add-btn {
+    background-color: var(--primary-color, #ff6b6b);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.add-btn:hover {
+    background-color: #e85c5c;
+    transform: translateY(-2px);
+}
+
+/* Toast notification */
+.toast {
+    visibility: hidden;
+    min-width: 150px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 10px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    font-weight: bold;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Dark/Light toggle button */
+.toggle-mode {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-color, #ff6b6b);
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.toggle-mode:hover {
+    transform: scale(1.1);
+}
+
+/* Dark mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #f5f5f5;
+}
+
+body.dark-mode .menu-table,
+body.dark-mode .cart-btn,
+body.dark-mode .add-btn {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .menu-table thead {
+    background-color: #ff6b6b;
+}

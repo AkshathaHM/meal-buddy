@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'customer_menu.css' %}">
+    <link rel="stylesheet" href="{% static 'addcard.css' %}">
+</head>
+<body>
+
+<div class="menu-page">
+    <div class="menu-header">
+        <h3>Welcome, <span>{{ username }}</span>!</h3>
+        <a class="cart-btn" href="{% url 'show_cart' username %}">
+            Go to Cart
+        </a>
+    </div>
+
+    <table class="menu-table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Picture</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Veg/Non-Veg</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in itemList %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td><img src="{{ item.picture }}" alt="{{ item.name }}"></td>
+                <td>{{ item.description }}</td>
+                <td>₹ {{ item.price }}</td>
+                <td>
+                    {% if item.vegeterian %}
+                        <span class="veg-badge">Veg</span>
+                    {% else %}
+                        <span class="nonveg-badge">Non-Veg</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <button class="add-btn" data-item-id="{{ item.id }}">Add to Cart</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Notification -->
+<div id="toast" class="toast">Added to Cart!</div>
+
+<!-- Dark / Light Toggle -->
+<button class="toggle-mode"></button>
+
+<script>
+    // Dark/Light toggle
+    const toggleBtn = document.querySelector('.toggle-mode');
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+    toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem(
+            'theme',
+            document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+        );
+    });
+
+    // Add to cart notification
+    const buttons = document.querySelectorAll('.add-btn');
+    const toast = document.getElementById('toast');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function(e){
+            e.preventDefault(); // prevent navigation
+            const itemId = this.dataset.itemId;
+
+            // Here you can make an AJAX request to add item to cart
+            fetch(`/add_to_cart_ajax/${itemId}/{{ username }}/`, {
+                method: 'GET'
+            }).then(response => {
+                if(response.ok){
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 2000);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

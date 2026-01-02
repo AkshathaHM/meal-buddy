@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Order Summary</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'order.css' %}">
+</head>
+<body>
+
+    <div class="order-container">
+        <h1>Thank you, <span>{{ username }}</span>! 🎉</h1>
+
+        <div class="order-card">
+            <h2>Delivery Address</h2>
+            <p>{{ customer.address }}</p>
+        </div>
+
+        <p class="order-msg">
+            Your order will be delivered shortly.  
+            Thank you for choosing <strong>Meal Buddy</strong> 🍽️
+        </p>
+
+        {% if cart_items %}
+            <a class="order-btn" href="{% url 'customer_menu' cart_items.0.restaurant.id username %}">
+                Back to Restaurants
+            </a>
+        {% else %}
+            <a class="order-btn" href="/">
+                Back to Home
+            </a>
+        {% endif %}
+    </div>
+
+    <!-- Dark / Light Toggle -->
+    <button class="toggle-mode"></button>
+
+    <script>
+        const toggleBtn = document.querySelector('.toggle-mode');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem(
+                'theme',
+                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+            );
+        });
+    </script>
+
+</body>
+</html>

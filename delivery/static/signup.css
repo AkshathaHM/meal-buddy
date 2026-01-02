@@ -1,0 +1,236 @@
+/* =======================
+   COLOR VARIABLES
+======================= */
+
+/* Light mode colors */
+:root {
+    --bg-color: #f0f4f8;       /* Page background */
+    --card-bg: #ffffff;         /* Card/form background */
+    --text-color: #333;         /* Main text */
+    --input-bg: #f9f9f9;        /* Input fields */
+    --input-border: #ccc;       /* Input borders */
+    --primary-color: #ff6b6b;   /* Buttons, highlights */
+    --secondary-color: #4ecdc4; /* Secondary buttons or accents */
+    --link-color: var(--primary-color);
+    --link-hover: #ff4757;
+}
+
+/* Dark mode colors */
+body.dark-mode {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f5f5f5;
+    --input-bg: #2a2a2a;
+    --input-border: #555;
+    --primary-color: #ff6b6b; /* same as light mode for consistency */
+    --secondary-color: #4ecdc4;
+    --link-color: var(--secondary-color);
+    --link-hover: #1dd1a1;
+}
+
+/* =======================
+   BODY AND PAGE
+======================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* =======================
+   CARD / FORM
+======================= */
+.card, form {
+    background-color: var(--card-bg);
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* =======================
+   HEADINGS
+======================= */
+.card h3, form h3 {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.card h3 span, form h3 span {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* =======================
+   LINKS AND BUTTONS
+======================= */
+.card a, .cart-btn, .add-btn, button[type="submit"] {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 25px;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.card a:hover, .cart-btn:hover, .add-btn:hover, button[type="submit"]:hover {
+    background-color: #e85c5c;
+    transform: translateY(-2px);
+}
+
+/* =======================
+   INPUT FIELDS
+======================= */
+input, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: border 0.3s, background-color 0.3s, color 0.3s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(255,107,107,0.5);
+}
+
+/* =======================
+   MENU TABLE
+======================= */
+.menu-page {
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.menu-header h3 span {
+    color: var(--primary-color);
+}
+
+.menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+.menu-table thead {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.menu-table th, .menu-table td {
+    padding: 12px;
+    text-align: center;
+}
+
+.menu-table tbody tr {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.menu-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.menu-table img {
+    width: 90px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* =======================
+   VEG / NON-VEG BADGES
+======================= */
+.veg-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.nonveg-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background-color: #f44336;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* =======================
+   TOAST NOTIFICATION
+======================= */
+.toast {
+    visibility: hidden;
+    min-width: 150px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    text-align: center;
+    border-radius: 8px;
+    padding: 10px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    font-weight: bold;
+    opacity: 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: visibility 0s, opacity 0.3s ease-in-out, background-color 0.3s, color 0.3s;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* =======================
+   DARK/LIGHT TOGGLE
+======================= */
+.toggle-mode {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.toggle-mode:hover {
+    transform: scale(1.1);
+}

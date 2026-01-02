@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Menu</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'update_menu.css' %}">
+</head>
+<body>
+
+    <div class="menu-admin-container">
+
+        <!-- CURRENT MENU -->
+        <h2>Current Menu</h2>
+
+        <table class="menu-admin-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Picture</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Veg</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in itemList %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td><img src="{{ item.picture }}" alt="{{ item.name }}"></td>
+                    <td>{{ item.description }}</td>
+                    <td>₹ {{ item.price }}</td>
+                    <td>
+                        {% if item.vegeterian %}
+                            Veg
+                        {% else %}
+                            Non-Veg
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- ADD MENU ITEM -->
+        <h2 class="form-title">Add Menu Item</h2>
+
+        <form class="menu-form" action="{% url 'update_menu' restaurant.id %}" method="post">
+            {% csrf_token %}
+
+            <label>Item Name</label>
+            <input type="text" name="name" required>
+
+            <label>Description</label>
+            <textarea name="description" required></textarea>
+
+            <label>Price</label>
+            <input type="number" name="price" step="0.01" required>
+
+            <label class="checkbox-label">
+                <input type="checkbox" name="vegeterian">
+                Vegetarian
+            </label>
+
+            <label>Image URL</label>
+            <input type="url" name="picture">
+
+            <button type="submit">Add Item</button>
+        </form>
+
+    </div>
+
+    <!-- Dark / Light Toggle -->
+    <button class="toggle-mode"></button>
+
+    <script>
+        const toggleBtn = document.querySelector('.toggle-mode');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem(
+                'theme',
+                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+            );
+        });
+    </script>
+
+</body>
+</html>

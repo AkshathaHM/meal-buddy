@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Restaurant</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'update_restaurant.css' %}">
+</head>
+<body>
+
+    <div class="update-restaurant-container">
+        <h2>Update Restaurant</h2>
+
+        <form class="update-form" action="{% url 'update_restaurant' restaurant.id %}" method="post">
+            {% csrf_token %}
+
+            <label>Restaurant Name</label>
+            <input type="text" name="name" value="{{ restaurant.name }}" required>
+
+            <label>Picture URL</label>
+            <input type="text" name="picture" value="{{ restaurant.picture }}" required>
+
+            <label>Cuisine</label>
+            <input type="text" name="cuisine" value="{{ restaurant.cuisine }}" required>
+
+            <label>Rating</label>
+            <input type="number" name="rating" min="0" max="5" step="0.5"
+                   value="{{ restaurant.rating }}" required>
+
+            <button type="submit">Update Restaurant</button>
+        </form>
+    </div>
+
+    <!-- Dark / Light Toggle -->
+    <button class="toggle-mode"></button>
+
+    <script>
+        const toggleBtn = document.querySelector('.toggle-mode');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem(
+                'theme',
+                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+            );
+        });
+    </script>
+
+</body>
+</html>

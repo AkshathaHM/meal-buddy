@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Sign IN</title>
+        {% load static %}
+    <link rel="stylesheet" href="{% static 'signin.css' %}">
+</head>
+<body>
+    
+
+    <form action="{% url 'signin' %}" method="post">
+        <h3>Sign In</h3>
+        {% csrf_token %}
+        <label>Username </label>
+        <input type="text" name="username">
+        <br><br>
+        <label>Password </label>
+        <input type="password" name="password">
+        <br><br>
+        
+        <br><br>
+        <button type="submit">SIGN IN</button>
+
+        <button class="toggle-mode"></button>
+
+<script>
+    const toggleBtn = document.querySelector('.toggle-mode');
+
+    // Load saved theme
+    if(localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+
+        // Save preference
+        if(document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    });
+</script>
+
+    </form>
+</body>
+</html>

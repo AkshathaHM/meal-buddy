@@ -1,0 +1,130 @@
+/* =======================
+   COLORS
+======================= */
+:root {
+    --bg-color: #f0f4f8;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --primary-color: #ff6b6b;
+}
+
+body.dark-mode {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f5f5f5;
+    --primary-color: #ff6b6b;
+}
+
+/* =======================
+   BODY
+======================= */
+body {
+    margin: 0;
+    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* =======================
+   CONTAINER
+======================= */
+.customer-container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* =======================
+   HEADING
+======================= */
+.customer-container h3 {
+    margin-bottom: 30px;
+}
+
+.customer-container span {
+    color: var(--primary-color);
+}
+
+/* =======================
+   TABLE
+======================= */
+.restaurant-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.restaurant-table thead {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.restaurant-table th,
+.restaurant-table td {
+    padding: 15px;
+    text-align: center;
+}
+
+.restaurant-table tbody tr {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.restaurant-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.restaurant-table tbody tr:hover {
+    background-color: rgba(0,0,0,0.03);
+}
+
+/* =======================
+   IMAGES
+======================= */
+.restaurant-table img {
+    width: 90px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* =======================
+   VIEW MENU BUTTON
+======================= */
+.view-btn {
+    padding: 10px 22px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.view-btn:hover {
+    background-color: #e85c5c;
+    transform: translateY(-2px);
+}
+
+/* =======================
+   TOGGLE BUTTON
+======================= */
+.toggle-mode {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.toggle-mode:hover {
+    transform: scale(1.1);
+}

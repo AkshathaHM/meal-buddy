@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Restaurant</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'add_restaurant.css' %}">
+</head>
+<body>
+
+    <div class="container">
+        <h3>Add New Restaurant</h3>
+
+        <form action="{% url 'add_restaurant' %}" method="post">
+            {% csrf_token %}
+
+            <label>Restaurant Name</label>
+            <input type="text" name="name" required>
+
+            <label>Picture URL</label>
+            <input type="text" name="picture">
+
+            <label>Cuisine</label>
+            <input type="text" name="cuisine">
+
+            <label>Rating</label>
+            <input type="number" name="rating" min="0" max="5" step="0.5">
+
+            <button type="submit">Add Restaurant</button>
+        </form>
+    </div>
+
+    <!-- Dark / Light toggle -->
+    <button class="toggle-mode"></button>
+
+    <script>
+        const toggleBtn = document.querySelector('.toggle-mode');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem(
+                'theme',
+                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+            );
+        });
+    </script>
+
+</body>
+</html>
