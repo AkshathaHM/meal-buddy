@@ -1,6 +1,25 @@
 /* =======================
    MENU PAGE
 ======================= */
+:root {
+    --bg-color: #f0f4f8;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --primary-color: #ff6b6b;
+}
+
+body.dark-mode {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f5f5f5;
+    --primary-color: #ff6b6b;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
 .menu-page {
     max-width: 1100px;
     margin: 40px auto;
@@ -153,10 +172,15 @@ body.dark-mode {
     color: #f5f5f5;
 }
 
-body.dark-mode .menu-table,
+body.dark-mode .menu-table {
+    background-color: #1e1e1e;
+}
+
+/* Keep action buttons visible in dark mode */
 body.dark-mode .cart-btn,
 body.dark-mode .add-btn {
-    background-color: #1e1e1e;
+    background-color: var(--primary-color, #ff6b6b);
+    color: #fff;
 }
 
 body.dark-mode .menu-table thead {

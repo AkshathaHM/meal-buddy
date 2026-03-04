@@ -64,14 +64,81 @@ h3 {
 ======================= */
 input[type="text"], input[type="password"] {
     width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 20px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
     border: 1px solid var(--input-border);
     border-radius: 10px;
     background-color: var(--input-bg);
     color: var(--text-color);
     font-size: 14px;
+    box-sizing: border-box;
     transition: border 0.3s, background-color 0.3s, color 0.3s;
+}
+
+/* Password show/hide */
+.password-field {
+    position: relative;
+    margin-bottom: 14px;
+    width: 100%;
+}
+
+.password-field input {
+    margin-bottom: 0;
+    padding-right: 70px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    width: 42px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.toggle-password svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.toggle-password .icon-eye-off {
+    display: none;
+}
+
+.toggle-password.is-visible .icon-eye {
+    display: none;
+}
+
+.toggle-password.is-visible .icon-eye-off {
+    display: block;
+}
+
+.forgot-wrap {
+    margin: 12px 0 0;
+    font-size: 14px;
+}
+
+.forgot-wrap a {
+    color: var(--primary-color);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.forgot-wrap a:hover {
+    text-decoration: underline;
 }
 
 input[type="text"]:focus, input[type="password"]:focus {
@@ -85,7 +152,7 @@ input[type="text"]:focus, input[type="password"]:focus {
 ======================= */
 button[type="submit"] {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border: none;
     border-radius: 25px;
     background-color: var(--primary-color);
@@ -99,6 +166,23 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #e85c5c;
     transform: translateY(-2px);
+}
+
+/* Switch between auth pages */
+.auth-switch {
+    margin: 16px 0 0;
+    font-size: 14px;
+    opacity: 0.95;
+}
+
+.auth-switch a {
+    color: var(--primary-color);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
 }
 
 /* =======================

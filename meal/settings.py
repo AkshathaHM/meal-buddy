@@ -118,5 +118,5 @@ STATIC_URL = '/static/'
 
 
 
-RAZORPAY_KEY_ID = 'rzp_test_RyxJrc5E2dBepK'
-RAZORPAY_KEY_SECRET = 'dGpYpew3v82smhGrWJih3aL2'
+RAZORPAY_KEY_ID = 'rzp_test_SBc5Cn59thD4QV'
+RAZORPAY_KEY_SECRET = '2omZs3iuebhVcIklCSIvkIrF'

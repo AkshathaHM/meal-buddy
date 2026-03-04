@@ -4,7 +4,7 @@
 
 .add-btn {
     padding: 10px 20px;
-    background-color: var(--primary-color);
+    background-color: var(--primary-color, #ff6b6b);
     color: white;
     border-radius: 25px;
     text-decoration: none;

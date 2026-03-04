@@ -10,6 +10,9 @@ from django.conf import settings
 def index(request):
     return render(request, 'index.html')
 
+def admin_home(request):
+    return render(request, 'admin_home.html')
+
 def open_signin(request):
     return render(request, 'signin.html')
 
@@ -58,7 +61,7 @@ def signin(request):
     try:
         User.objects.get(username = username, password = password)
         if username == 'admin':
-            return render(request, 'admin_home.html')
+            return redirect('admin_home')
         else:
             restaurantList = Restaurant.objects.all()
             return render(request, 'customer_home.html',{"restaurantList" : restaurantList, "username" : username})
@@ -85,6 +88,26 @@ def signup(request):
         # return HttpResponse(f"Username : {username} password : {password} email {email} mobile {mobile} address {address}")
     else:
         return HttpResponse(f"Invalid response, Duplicate User")
+
+def forgot_password(request):
+    username = request.GET.get('username') or request.POST.get('username')
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if not username:
+            return render(request, 'forgot_password.html', {'error': 'Username is missing. Please go back and enter your username.'})
+
+        if new_password != confirm_password:
+            return render(request, 'forgot_password.html', {'username': username, 'error': 'Passwords do not match.'})
+
+        updated = User.objects.filter(username=username).update(password=new_password)
+        if updated == 0:
+            return render(request, 'forgot_password.html', {'username': username, 'error': 'User not found.'})
+
+        return render(request, 'forgot_password.html', {'username': username, 'success': 'Password changed successfully!'})
+
+    return render(request, 'forgot_password.html', {'username': username})
     
 def open_add_restaurant(request):
     return render(request, 'add_restaurant.html')
@@ -108,7 +131,7 @@ def add_restaurant(request):
                 rating = rating,
             )
     # return HttpResponse("Successfully Added !")
-        return render(request, 'admin_home.html')
+        return redirect('admin_home')
 
 def open_show_restaurant(request):
     restaurantList = Restaurant.objects.all()
@@ -165,7 +188,8 @@ def update_menu(request, restaurant_id):
                 vegeterian = vegeterian,
                 picture = picture,
             )
-    return render(request, 'admin_home.html')
+        return redirect('admin_home')
+    return render(request, 'update_menu.html', {"itemList": restaurant.items.all(), "restaurant": restaurant})
 
 def view_menu(request, restaurant_id, username):
     restaurant = Restaurant.objects.get(id = restaurant_id)

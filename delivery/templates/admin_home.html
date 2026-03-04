@@ -6,17 +6,18 @@
     <title>Admin Home</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'admin_home.css' %}">
+    <link rel="stylesheet" href="{% static 'theme_toggle.css' %}">
 </head>
 <body>
 
     <div class="admin-container">
         <h3>Welcome to Admin Home</h3>
 
-        <a class="admin-btn" href="open_add_restaurant">
+        <a class="admin-btn" href="{% url 'open_add_restaurant' %}">
             Add New Restaurant
         </a>
 
-        <a class="admin-btn secondary" href="open_show_restaurant">
+        <a class="admin-btn secondary" href="{% url 'open_show_restaurant' %}">
             Show Restaurants
         </a>
     </div>
@@ -26,10 +27,14 @@
 
     <script>
         const toggleBtn = document.querySelector('.toggle-mode');
+        const setThemeIcon = () => {
+            toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☾' : '☀';
+        };
 
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
         }
+        setThemeIcon();
 
         toggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
@@ -37,6 +42,7 @@
                 'theme',
                 document.body.classList.contains('dark-mode') ? 'dark' : 'light'
             );
+            setThemeIcon();
         });
     </script>
 

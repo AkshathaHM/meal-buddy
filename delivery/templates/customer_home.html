@@ -6,6 +6,7 @@
     <title>Restaurants</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'customer_home.css' %}">
+    <link rel="stylesheet" href="{% static 'theme_toggle.css' %}">
 </head>
 <body>
 
@@ -48,10 +49,14 @@
 
     <script>
         const toggleBtn = document.querySelector('.toggle-mode');
+        const setThemeIcon = () => {
+            toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☾' : '☀';
+        };
 
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
         }
+        setThemeIcon();
 
         toggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
@@ -59,6 +64,7 @@
                 'theme',
                 document.body.classList.contains('dark-mode') ? 'dark' : 'light'
             );
+            setThemeIcon();
         });
     </script>
 
