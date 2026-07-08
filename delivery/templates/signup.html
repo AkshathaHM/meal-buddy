@@ -15,13 +15,46 @@
     <form action="{% url 'signup' %}" method="post">
         {% csrf_token %}
 
+        {% if messages %}
+            <div class="message-box" style="margin-bottom: 12px;">
+                {% for message in messages %}
+                    <div class="{{ message.tags }}" style="padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; background: {% if message.tags == 'error' %}#ffebee{% else %}#e8f5e9{% endif %}; color: {% if message.tags == 'error' %}#c62828{% else %}#2e7d32{% endif %};">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <label>Username</label>
         <input type="text" name="username" required placeholder="username">
+
+        <label>Role</label>
+        <select name="role" required style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; width: 100%; box-sizing: border-box; margin-bottom: 12px;">
+            <option value="customer">Customer</option>
+            <option value="admin">Admin</option>
+        </select>
 
         <label>Password</label>
         <div class="password-field">
             <input id="signup-password" type="password" name="password" required placeholder="password">
             <button type="button" class="toggle-password" data-target="signup-password" aria-label="Show password">
+                <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path>
+                    <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+                </svg>
+                <svg class="icon-eye-off" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 3l18 18"></path>
+                    <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+                    <path d="M9.9 5.1A10.4 10.4 0 0 1 12 5c6.5 0 10 7 10 7a18.2 18.2 0 0 1-4.2 5.2"></path>
+                    <path d="M6.2 6.2C3.5 8.3 2 12 2 12s3.5 7 10 7c1.1 0 2.1-.2 3.1-.5"></path>
+                </svg>
+            </button>
+        </div>
+
+        <label>Confirm Password</label>
+        <div class="password-field">
+            <input id="signup-confirm-password" type="password" name="confirm_password" required placeholder="confirm password">
+            <button type="button" class="toggle-password" data-target="signup-confirm-password" aria-label="Show password">
                 <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path>
                     <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
@@ -49,7 +82,7 @@
 
     <p class="auth-switch">
         Already have an account?
-        <a href="{% url 'open_signin' %}">Sign in</a>
+        <a href="{% url 'open_signin' %}" class="sign-in-link">Sign in</a>
     </p>
 </div>
 

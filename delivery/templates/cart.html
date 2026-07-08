@@ -3,51 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Menu</title>
+    <title>Your Cart</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'cart.css' %}">
     <link rel="stylesheet" href="{% static 'theme_toggle.css' %}">
 </head>
 <body>
 
-    <div class="menu-container">
-        <h2>Hello, <span>{{ username }}</span></h2>
-
-        <table class="menu-table">
-            <thead>
-                <tr>
-                    <th>Item Image</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for item in itemList %}
-                <tr>
-                    <td>
-                        <img src="{{ item.picture }}" alt="{{ item.name }}">
-                    </td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>₹ {{ item.price }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="total-box">
-            <h3>Total Price: ₹ {{ total_price }}</h3>
-
-            <form action="{% url 'checkout' username %}">
-                <button type="submit">CHECK OUT</button>
-            </form>
-        </div>
+    <div class="top-right-controls">
+        <button class="toggle-mode"></button>
+        <a class="top-right-logout" href="{% url 'logout' %}">Logout</a>
     </div>
 
-    <!-- Dark / Light Toggle -->
-    <button class="toggle-mode"></button>
+    <div class="cart-container">
+        <h1>🛒 Your Cart</h1>
+        <h3>Hello, <span>{{ username }}</span></h3>
+
+        {% if itemList %}
+        <div class="cart-grid">
+            {% for item in itemList %}
+            <div class="cart-card">
+                <div class="image-box">
+                    <img src="{{ item.picture }}" alt="{{ item.name }}">
+                </div>
+                <div class="cart-details">
+                    <div class="cart-top-row">
+                        <h2>{{ item.name }}</h2>
+                        {% if item.vegeterian %}
+                            <span class="veg-badge">Veg</span>
+                        {% else %}
+                            <span class="nonveg-badge">Non-Veg</span>
+                        {% endif %}
+                    </div>
+                    <p class="restaurant-name">🍽 {{ item.restaurant.name }}</p>
+                    <p class="item-description">{{ item.description }}</p>
+                    <p class="item-price">₹ {{ item.price }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="total-box">
+            <div class="total-info">
+                <p class="item-count">{{ itemList|length }} item{{ itemList|length|pluralize }} in cart</p>
+                <h3>Total: ₹ {{ total_price }}</h3>
+            </div>
+            <form action="{% url 'checkout' username %}">
+                <button type="submit" class="checkout-btn">Checkout →</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="empty-cart">
+            <p>Your cart is empty.</p>
+            <a href="{% url 'customer_home' %}" class="back-btn">Browse Restaurants</a>
+        </div>
+        {% endif %}
+    </div>
 
     <script>
         const toggleBtn = document.querySelector('.toggle-mode');

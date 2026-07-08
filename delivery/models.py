@@ -4,11 +4,17 @@ from django.db import models
 from django.db import models
 
 class User(models.Model):
+    ROLE_CHOICES = [
+        ('customer', 'Customer'),
+        ('admin', 'Admin'),
+    ]
+
     username = models.CharField(max_length = 20)
     password = models.CharField(max_length = 20)
     email = models.CharField(max_length = 20)
     mobile = models.CharField(max_length = 10)
     address = models.CharField(max_length = 50)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='customer')
 
     def __str__(self):
         return self.username

@@ -10,6 +10,11 @@
 </head>
 <body>
 
+    <div class="top-right-controls">
+        <button class="toggle-mode"></button>
+        <a class="top-right-logout" href="{% url 'logout' %}">Logout</a>
+    </div>
+
     <div class="admin-container">
         <h3>Welcome to Admin Home</h3>
 
@@ -21,9 +26,6 @@
             Show Restaurants
         </a>
     </div>
-
-    <!-- Dark / Light Toggle -->
-    <button class="toggle-mode"></button>
 
     <script>
         const toggleBtn = document.querySelector('.toggle-mode');

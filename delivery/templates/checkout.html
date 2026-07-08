@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-
     {% load static %}
     <link rel="stylesheet" href="{% static 'checkout.css' %}">
     <link rel="stylesheet" href="{% static 'theme_toggle.css' %}">
-
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-
     <div class="checkout-container">
         <h1>Checkout</h1>
         <h2>Welcome, <span>{{ username }}</span></h2>
@@ -20,85 +17,86 @@
         {% if error %}
             <p class="error-text">{{ error }}</p>
         {% else %}
-
-        <table class="checkout-table">
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>₹ {{ item.price }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="checkout-total">
-            <h3>Total: ₹ {{ total_price }}</h3>
-            <button id="rzp-button">Pay with Razorpay</button>
-        </div>
-
+            <table class="checkout-table">
+                <thead><tr><th>Item</th><th>Price</th></tr></thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr><td>{{ item.name }}</td><td>₹ {{ item.price }}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="checkout-total">
+                <h3>Total: ₹ {{ total_price }}</h3>
+                <button id="rzp-button">Pay with Razorpay</button>
+            </div>
         {% endif %}
     </div>
 
-    <!-- Dark / Light Toggle -->
     <button class="toggle-mode"></button>
 
+    <!-- Theme Toggle -->
     <script>
         const toggleBtn = document.querySelector('.toggle-mode');
-        const setThemeIcon = () => {
-            toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☾' : '☀';
-        };
-
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
+        const setThemeIcon = () => toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☾' : '☀';
+        if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
         setThemeIcon();
-
         toggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
-            localStorage.setItem(
-                'theme',
-                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
-            );
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
             setThemeIcon();
         });
     </script>
 
-    <!-- Razorpay Script (unchanged) -->
-    <script>
-        var options = {
-            "key": "{{ razorpay_key_id }}",
-            "amount": "{{ total_price|floatformat:2|add:'0.00'|floatformat:2 }}00",
-            "currency": "INR",
-            "name": "Meal Buddy",
-            "description": "Order Payment",
-            "order_id": "{{ order_id }}",
-            "handler": function (response) {
+    {% if not error %}
+  <script>
+var options = {
+    key: "{{ razorpay_key_id }}",
+    amount: "{{ amount_paisa }}",
+    currency: "INR",
+    name: "Meal Buddy",
+    description: "Order Payment",
+    order_id: "{{ order_id }}",
+
+    method: { upi: true },
+
+    handler: function (response) {
+        fetch("{% url 'verify_payment' username %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
                 alert("Payment Successful!");
-                window.location.href = "{% url 'orders' username %}";
-            },
-            "prefill": {
-                "name": "{{ username }}",
-                "email": "customer@example.com",
-                "contact": "9999999999"
-            },
-            "theme": {
-                "color": "#ff6b6b"
+                window.location.href = data.redirect_url;
+            } else {
+                alert(data.message);
             }
-        };
+        });
+    },
 
-        var rzp = new Razorpay(options);
-        document.getElementById('rzp-button').onclick = function(e) {
-            rzp.open();
-            e.preventDefault();
-        }
-    </script>
+    prefill: {
+        name: "{{ username }}",
+        email: "{{ customer_email }}",
+        contact: "{{ customer_mobile }}"
+    },
+    theme: { color: "#ff6b6b" }
+};
 
+var rzp = new Razorpay(options);
+document.getElementById("rzp-button").onclick = function(e) {
+    rzp.open();
+    e.preventDefault();
+};
+</script>
+    {% endif %}
 </body>
 </html>

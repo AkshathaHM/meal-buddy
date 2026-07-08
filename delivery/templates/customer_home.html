@@ -4,68 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurants</title>
+
     {% load static %}
+
     <link rel="stylesheet" href="{% static 'customer_home.css' %}">
     <link rel="stylesheet" href="{% static 'theme_toggle.css' %}">
 </head>
+
 <body>
 
-    <div class="customer-container">
-        <h3>Welcome, <span>{{ username }}</span>!</h3>
+<div class="top-right-controls">
+    <button class="toggle-mode"></button>
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+</div>
 
-        <table class="restaurant-table">
-            <thead>
-                <tr>
-                    <th>Restaurant</th>
-                    <th>Picture</th>
-                    <th>Cuisine</th>
-                    <th>Rating</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+<div class="customer-container">
 
-            <tbody>
-                {% for r in restaurantList %}
-                <tr>
-                    <td>{{ r.name }}</td>
-                    <td>
-                        <img src="{{ r.picture }}" alt="{{ r.name }}">
-                    </td>
-                    <td>{{ r.cuisine }}</td>
-                    <td>⭐ {{ r.rating }}</td>
-                    <td>
-                        <a class="view-btn" href="{% url 'view_menu' r.id username %}">
-                            View Menu
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <h1>🍴 Explore Restaurants</h1>
+
+    <h3>
+        Welcome,
+        <span>{{ username }}</span>
+    </h3>
+
+    <div class="restaurant-container">
+
+        {% for r in restaurantList %}
+
+        <div class="restaurant-card">
+
+            <div class="image-box">
+                <img src="{{ r.picture }}" alt="{{ r.name }}">
+            </div>
+
+            <div class="restaurant-details">
+
+                <h2>{{ r.name }}</h2>
+
+                <p class="cuisine">
+                    🍽 {{ r.cuisine }}
+                </p>
+
+                <p class="rating">
+                    ⭐ {{ r.rating }}/5
+                </p>
+
+                <a href="{% url 'view_menu' r.id username %}" class="view-btn">
+                    View Menu →
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
     </div>
 
-    <!-- Dark / Light Toggle -->
-    <button class="toggle-mode"></button>
+</div>
 
-    <script>
-        const toggleBtn = document.querySelector('.toggle-mode');
-        const setThemeIcon = () => {
-            toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☾' : '☀';
+<script>
+        var options = {
+            "key": "{{ rzp_test_lT6VV3Hhr4ayCQ }}",  // Razorpay API key
+            "amount": "{{ total_price|floatformat:2|add:'0.00'|floatformat:2 }}00", // Amount in paisa
+            "currency": "INR",
+            "name": "Meal Buddy",
+            "description": "Order Payment",
+            "order_id": "{{ order_id }}",  // Razorpay order ID
+            "handler": function (response) {
+                alert("Payment Successful!");
+                // Redirect to the orders page
+                window.location.href = "{% url 'orders' username %}";
+            },
+            "prefill": {
+                "name": "{{ username }}",
+                "email": "customer@example.com",
+                "contact": "9999999999"
+            },
+            "theme": {
+                "color": "#528FF0"
+            }
         };
-
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
+        var rzp = new Razorpay(options);
+    
+        document.getElementById('rzp-button').onclick = function(e) {
+            rzp.open();
+            e.preventDefault();
         }
-        setThemeIcon();
-
-        toggleBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem(
-                'theme',
-                document.body.classList.contains('dark-mode') ? 'dark' : 'light'
-            );
-            setThemeIcon();
-        });
     </script>
 
 </body>

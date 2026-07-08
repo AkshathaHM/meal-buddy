@@ -11,14 +11,24 @@
     
 
     <form action="{% url 'signin' %}" method="post">
-        <h3>Sign In</h3>
+        <h3>{{ page_title }}</h3>
+        {% if messages %}
+            <div class="message-box" style="margin-bottom: 12px;">
+                {% for message in messages %}
+                    <div class="{{ message.tags }}" style="padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; background: {% if message.tags == 'error' %}#ffebee{% else %}#e8f5e9{% endif %}; color: {% if message.tags == 'error' %}#c62828{% else %}#2e7d32{% endif %};">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
         {% csrf_token %}
+        <input type="hidden" name="role" value="{{ role }}">
         <label>Username </label>
-        <input id="signin-username" type="text" name="username" placeholder="username">
+        <input id="signin-username" type="text" name="username" placeholder="username" value="{{ request.POST.username|default:'' }}">
 
         <label>Password </label>
         <div class="password-field">
-            <input id="signin-password" type="password" name="password" placeholder="password">
+            <input id="signin-password" type="password" name="password" placeholder="password" value="{{ request.POST.password|default:'' }}">
             <button type="button" class="toggle-password" data-target="signin-password" aria-label="Show password">
                 <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path>

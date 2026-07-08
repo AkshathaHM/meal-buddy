@@ -10,54 +10,92 @@
 </head>
 <body>
 
+    <div class="top-right-controls">
+        <button class="toggle-mode"></button>
+        <a class="top-right-logout" href="{% url 'logout' %}">Logout</a>
+    </div>
+
     <div class="admin-container">
         <h2>Restaurant Management</h2>
 
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Restaurant</th>
-                    <th>Picture</th>
-                    <th>Cuisine</th>
-                    <th>Rating</th>
-                    <th>Operations</th>
-                </tr>
-            </thead>
+        <div id="confirmModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); align-items:center; justify-content:center; z-index:1000;">
+            <div style="background:#fff; padding:24px 28px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.2); max-width:360px; text-align:center;">
+                <p style="margin:0 0 16px; font-size:16px; color:#333;">Are you sure you want to delete this restaurant?</p>
+                <div style="display:flex; justify-content:center; gap:10px;">
+                    <button type="button" id="cancelDeleteBtn" style="padding:8px 14px; border:1px solid #ccc; border-radius:6px; background:#f5f5f5; cursor:pointer;">Cancel</button>
+                    <a id="confirmDeleteBtn" href="#" style="padding:8px 14px; border-radius:6px; background:#d32f2f; color:#fff; text-decoration:none;">Delete</a>
+                </div>
+            </div>
+        </div>
 
-            <tbody>
-                {% for r in restaurantList %}
-                <tr>
-                    <td>{{ r.name }}</td>
-                    <td>
-                        <img src="{{ r.picture }}" alt="{{ r.name }}">
-                    </td>
-                    <td>{{ r.cuisine }}</td>
-                    <td>⭐ {{ r.rating }}</td>
-                    <td class="action-cell">
-                        <a class="action-btn update" href="{% url 'open_update_restaurant' r.id %}">
-                            Update Info
-                        </a>
-                        <a class="action-btn menu" href="{% url 'open_update_menu' r.id %}">
-                            Update Menu
-                        </a>
-                        <a class="action-btn delete" href="{% url 'delete_restaurant' r.id %}">
-                            Delete
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% if messages %}
+        <div id="flashMessage" style="display:block; margin-bottom: 15px; padding: 10px 14px; border-radius: 6px; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7;">
+            {% for message in messages %}
+            <div>{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="restaurant-grid">
+            {% for r in restaurantList %}
+            <div class="restaurant-card">
+                <img src="{{ r.picture }}" alt="{{ r.name }}" class="restaurant-image">
+                <div class="restaurant-info">
+                    <div class="restaurant-title-row">
+                        <h3>{{ r.name }}</h3>
+                        <span class="rating">⭐ {{ r.rating }}</span>
+                    </div>
+                    <p class="cuisine">{{ r.cuisine }}</p>
+                    <div class="action-cell">
+                        <a class="action-btn update" href="{% url 'open_update_restaurant' r.id %}">Update Info</a>
+                        <a class="action-btn menu" href="{% url 'open_update_menu' r.id %}">Update Menu</a>
+                        <a class="action-btn delete" href="{% url 'delete_restaurant' r.id %}">Delete</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-
-    <!-- Dark / Light Toggle -->
-    <button class="toggle-mode"></button>
 
     <script>
         const toggleBtn = document.querySelector('.toggle-mode');
+        const confirmModal = document.getElementById('confirmModal');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const flashMessage = document.getElementById('flashMessage');
+        let deleteTargetUrl = '';
+
+        function showFlashMessage(message) {
+            flashMessage.textContent = message;
+            flashMessage.style.display = 'block';
+            clearTimeout(showFlashMessage.timeout);
+            showFlashMessage.timeout = setTimeout(() => {
+                flashMessage.style.display = 'none';
+            }, 10000);
+        }
+
         const setThemeIcon = () => {
             toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☾' : '☀';
         };
+
+        document.querySelectorAll('.action-btn.delete').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                deleteTargetUrl = link.getAttribute('href');
+                confirmDeleteBtn.setAttribute('href', deleteTargetUrl);
+                confirmModal.style.display = 'flex';
+            });
+        });
+
+        cancelDeleteBtn.addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+        });
+
+        confirmModal.addEventListener('click', (event) => {
+            if (event.target === confirmModal) {
+                confirmModal.style.display = 'none';
+            }
+        });
 
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');

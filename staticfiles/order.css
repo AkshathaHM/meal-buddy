@@ -1,0 +1,130 @@
+/* =======================
+   COLOR VARIABLES
+======================= */
+
+/* Light mode */
+:root {
+    --bg-color: #f5f5f5;       /* Page background */
+    --card-bg: #ffffff;         /* Card background */
+    --text-color: #333333;      /* Main text */
+    --primary-color: #ff6b6b;   /* Buttons, highlights */
+    --secondary-color: #4ecdc4; /* Secondary accents */
+}
+
+/* Dark mode */
+body.dark-mode {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f5f5f5;
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+}
+
+/* =======================
+   BODY
+======================= */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* =======================
+   ORDER SUMMARY CONTAINER
+======================= */
+.order-container {
+    max-width: 600px;
+    margin: 80px auto;
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* Heading */
+.order-container h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.order-container span {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* =======================
+   ADDRESS CARD
+======================= */
+.order-card {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom: 25px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.order-card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+/* =======================
+   MESSAGE
+======================= */
+.order-msg {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+/* =======================
+   BACK BUTTON
+======================= */
+.order-btn {
+    display: inline-block;
+    padding: 14px 35px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.order-btn:hover {
+    background-color: #e85c5c;
+    transform: translateY(-2px);
+}
+
+/* =======================
+   DARK/LIGHT TOGGLE
+======================= */
+.toggle-mode {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.toggle-mode:hover {
+    transform: scale(1.1);
+}
+
+/* =======================
+   DARK MODE OVERRIDES
+======================= */
+body.dark-mode .order-card {
+    background-color: var(--card-bg);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}

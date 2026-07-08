@@ -23,8 +23,8 @@
             Thank you for choosing <strong>Meal Buddy</strong> 🍽️
         </p>
 
-        {% if cart_items %}
-            <a class="order-btn" href="{% url 'customer_menu' cart_items.0.restaurant.id username %}">
+        {% if restaurant_id %}
+            <a class="order-btn" href="{% url 'view_menu' restaurant_id username %}">
                 Back to Restaurants
             </a>
         {% else %}

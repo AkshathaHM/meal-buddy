@@ -11,6 +11,11 @@
 </head>
 <body>
 
+<div class="top-right-controls">
+    <button class="toggle-mode"></button>
+    <a class="top-right-logout" href="{% url 'logout' %}">Logout</a>
+</div>
+
 <div class="menu-page">
     <div class="menu-header">
         <h3>Welcome, <span>{{ username }}</span>!</h3>
@@ -19,46 +24,32 @@
         </a>
     </div>
 
-    <table class="menu-table">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Picture</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Veg/Non-Veg</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for item in itemList %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td><img src="{{ item.picture }}" alt="{{ item.name }}"></td>
-                <td>{{ item.description }}</td>
-                <td>₹ {{ item.price }}</td>
-                <td>
+    <div class="menu-grid">
+        {% for item in itemList %}
+        <div class="menu-card">
+            <img class="menu-image" src="{{ item.picture }}" alt="{{ item.name }}">
+            <div class="menu-content">
+                <div class="menu-top-row">
+                    <h4>{{ item.name }}</h4>
                     {% if item.vegeterian %}
                         <span class="veg-badge">Veg</span>
                     {% else %}
                         <span class="nonveg-badge">Non-Veg</span>
                     {% endif %}
-                </td>
-                <td>
+                </div>
+                <p class="menu-description">{{ item.description }}</p>
+                <div class="menu-footer">
+                    <span class="menu-price">₹ {{ item.price }}</span>
                     <button class="add-btn" data-item-id="{{ item.id }}">Add to Cart</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
 <!-- Notification -->
 <div id="toast" class="toast">Added to Cart!</div>
-
-<!-- Dark / Light Toggle -->
-<button class="toggle-mode"></button>
 
 <script>
     // Dark/Light toggle
