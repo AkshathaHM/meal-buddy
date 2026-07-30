@@ -14,8 +14,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-02c%#kef%7bd@yt2r))d_@8p!z1gyej!*!+og#8^3he#1(^lp#')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() in ('1', 'true', 'yes')
+# Default to development-friendly behavior when no environment override is provided.
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
 
 # Important for Render
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
