@@ -1,0 +1,49 @@
+{% load static %}
+<header class="site-header">
+    <div class="header-inner container">
+        <a href="{% if logged_in_user and logged_in_user.role|lower == 'admin' %}{% url 'admin_home' %}{% elif logged_in_user and logged_in_user.role|lower == 'customer' %}{% url 'customer_home' %}{% else %}/{% endif %}" class="brand">
+            <div class="brand-logo">
+                <img src="{% static 'Images/logo.avif' %}" alt="Meal Buddy logo" class="brand-logo-image" />
+            </div>
+            <div class="brand-text">
+                <span class="brand-name">Meal Buddy</span>
+                <span class="brand-tag">Food Delivery</span>
+            </div>
+        </a>
+
+        <div class="header-actions">
+            {% if logged_in_user %}
+                {% if logged_in_user.role|lower == 'customer' %}
+                    <a class="cart-icon-link" href="{% url 'show_cart' logged_in_user.username %}" data-cart-username="{{ logged_in_user.username }}" aria-label="Go to cart">
+                        <span>🛒</span>
+                        <span class="cart-badge">0</span>
+                    </a>
+                {% endif %}
+                <div class="profile-menu-wrapper">
+                    <button class="header-profile-card profile-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="profile-avatar">👤</span>
+                        <span class="profile-name">{{ logged_in_user.username }}</span>
+                        {% if logged_in_user.role|lower == 'customer' %}
+                            <span class="profile-chevron" aria-hidden="true">▾</span>
+                        {% endif %}
+                    </button>
+                    <div class="profile-dropdown-menu" role="menu" aria-label="Profile menu">
+                        <button class="profile-dropdown-item" type="button" data-profile-action="view">View Profile</button>
+                        {% if logged_in_user.role|lower == 'customer' %}
+                            <a class="profile-dropdown-item" href="{% url 'orders' logged_in_user.username %}" role="menuitem">Orders</a>
+                            <a class="profile-dropdown-item" href="{% url 'show_cart' logged_in_user.username %}" role="menuitem">Cart</a>
+                        {% endif %}
+                        <a class="profile-dropdown-item" href="{% url 'logout' %}" role="menuitem">Logout</a>
+                    </div>
+                </div>
+            {% else %}
+                <button class="btn btn-primary header-signup-button" id="signupBtn">Sign Up</button>
+                <button class="btn btn-secondary header-signin-button" id="signinBtn">Sign In</button>
+            {% endif %}
+
+            <button class="toggle-mode" aria-label="Toggle theme" type="button">
+                <span class="toggle-mode-icon">☀</span>
+            </button>
+        </div>
+    </div>
+</header>

@@ -1,100 +1,27 @@
-/* Top-right bar: theme toggle then logout */
-.top-right-controls {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    z-index: 1200;
-}
-
-/* Theme toggle: monochrome sun/moon icon */
+/* Shared header theme toggle styling */
 .toggle-mode {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    background: transparent;
-    color: rgba(0, 0, 0, 0.65);
-    font-size: 22px;
-    line-height: 1;
+    position: static;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: #fff;
+    color: #111827;
     cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
     flex-shrink: 0;
 }
 
-.top-right-controls .toggle-mode {
-    position: static;
-    top: auto;
-    right: auto;
-}
-
-.toggle-mode:hover {
-    transform: scale(1.06);
-}
-
-.top-right-logout,
-.top-right-controls .logout-btn {
-    position: static;
-    top: auto;
-    right: auto;
-    text-decoration: none;
-    background: linear-gradient(135deg, #ff6b6b, #ff8a65);
-    color: white;
-    padding: 10px 16px;
-    border-radius: 999px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    box-shadow: 0 10px 22px rgba(255, 107, 107, 0.28);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    white-space: nowrap;
-}
-
-.top-right-controls .logout-btn {
-    background: #ff4d4d;
-    box-shadow: 0 10px 22px rgba(255, 77, 77, 0.28);
-}
-
-.top-right-logout:hover,
-.top-right-controls .logout-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 24px rgba(255, 107, 107, 0.34);
-    background: linear-gradient(135deg, #ff5a5a, #ff7a4a);
-}
-
-.top-right-controls .logout-btn:hover {
-    background: #e63946;
+.toggle-mode:hover,
+.toggle-mode:focus-visible {
+    transform: translateY(-1px);
 }
 
 body.dark-mode .toggle-mode {
-    color: rgba(255, 255, 255, 0.95);
-    border-color: rgba(255, 255, 255, 0.25);
-}
-
-@media (max-width: 768px) {
-    .top-right-controls {
-        top: 12px;
-        right: 12px;
-        gap: 8px;
-    }
-
-    .toggle-mode {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
-
-    .top-right-logout,
-    .top-right-controls .logout-btn {
-        padding: 8px 14px;
-        font-size: 14px;
-    }
+    background: #131722;
+    color: #f8fafc;
+    border-color: rgba(255, 255, 255, 0.16);
 }

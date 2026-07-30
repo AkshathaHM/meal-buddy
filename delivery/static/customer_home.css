@@ -32,7 +32,7 @@ body.dark-mode{
 body{
 
 margin:0;
-padding:40px;
+padding:0;
 font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
 background:var(--bg);
 color:var(--text);
@@ -47,9 +47,9 @@ transition:.4s;
 
 .customer-container{
 
-max-width:1300px;
-margin:auto;
-padding-top:50px;
+max-width:1240px;
+margin:2rem auto 0;
+padding:2rem 0 3rem;
 
 }
 
@@ -61,10 +61,35 @@ font-size:40px;
 
 }
 
+.customer-page-top{
+
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+gap:0.6rem;
+margin:0 auto 1.5rem;
+max-width:1240px;
+padding:0 0.25rem;
+
+}
+
+.page-back-link{
+	display:inline-flex;
+	align-items:center;
+	gap:0.35rem;
+	font-weight:700;
+	color:var(--primary);
+	text-decoration:none;
+}
+
+.page-back-link:hover{
+	text-decoration:underline;
+}
+
 .customer-container h3{
 
-text-align:center;
-margin-bottom:40px;
+text-align:left;
+margin-bottom:24px;
 font-weight:500;
 
 }

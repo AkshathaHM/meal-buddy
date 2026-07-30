@@ -12,13 +12,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-02c%#kef%7bd@yt2r))d_@8p!z1gyej!*!+og#8^3he#1(^lp#'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-02c%#kef%7bd@yt2r))d_@8p!z1gyej!*!+og#8^3he#1(^lp#')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False                      # ← Changed to False for production
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() in ('1', 'true', 'yes')
 
 # Important for Render
-ALLOWED_HOSTS = ['*']              # ← Allows all hosts (Render domain)
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+render_host = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if render_host:
+    ALLOWED_HOSTS.append(render_host)
 
 
 # Application definition
@@ -34,12 +37,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'delivery.middleware.InactivityLogoutMiddleware',
 ]
 
 ROOT_URLCONF = 'meal.urls'
@@ -54,6 +59,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'delivery.context_processors.auth_user',
             ],
         },
     },
@@ -97,15 +103,18 @@ USE_TZ = True
 
 # Static files (Very Important for Render)
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'          # ← Added for production
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / 'static',
+    BASE_DIR / 'delivery' / 'static',
+    BASE_DIR / 'delivery',
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Razorpay Settings
+# Razorpay Settingsīī
 RAZORPAY_KEY_ID = "rzp_test_TAsqtBKY9SkyQb"
 RAZORPAY_KEY_SECRET = "EIUnA86y67xrJsV2Ov3UBTek"

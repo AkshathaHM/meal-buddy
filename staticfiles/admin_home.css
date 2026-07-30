@@ -2,47 +2,74 @@
    COLOR VARIABLES
 ======================= */
 :root {
-    --bg-color: #f0f4f8;
+    --bg-color: #f5f5f5;
     --card-bg: #ffffff;
-    --text-color: #333;
-    --primary-color: #ff6b6b;
+    --text-color: #1f1f1f;
+    --muted-text: #6c6c70;
+    --border-color: rgba(18, 18, 20, 0.08);
+    --primary: #ff6b6b;
+    --primary-soft: rgba(255, 107, 107, 0.16);
+    --secondary: #4ecdc4;
+    --accent-blue: #3b82f6;
+    --accent-green: #16a34a;
+    --accent-purple: #8b5cf6;
+    --surface-elevated: linear-gradient(135deg, rgba(255,255,255,0.97) 0%, rgba(255,247,247,0.9) 100%);
+    --surface-soft: linear-gradient(135deg, #ffffff 0%, #fff8f8 100%);
+    --bg-gradient: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    --shadow-soft: 0 24px 70px rgba(15, 23, 42, 0.08);
+    color-scheme: light;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-color);
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 body.dark-mode {
-    --bg-color: #121212;
-    --card-bg: #1e1e1e;
-    --text-color: #f5f5f5;
-    --primary-color: #ff6b6b;
+    --bg-color: #07111f;
+    --card-bg: #121b2b;
+    --text-color: #f8fafc;
+    --muted-text: #cbd5e1;
+    --border-color: rgba(255, 255, 255, 0.14);
+    --primary: #ff6b6b;
+    --primary-soft: rgba(255, 107, 107, 0.16);
+    --secondary: #4ecdc4;
+    --accent-blue: #60a5fa;
+    --accent-green: #34d399;
+    --accent-purple: #a78bfa;
+    --surface-elevated: linear-gradient(135deg, rgba(18, 27, 43, 0.97) 0%, rgba(15, 23, 42, 0.94) 100%);
+    --surface-soft: linear-gradient(135deg, #121b2b 0%, rgba(35, 51, 75, 0.95) 100%);
+    --bg-gradient: linear-gradient(180deg, #0d1524 0%, #111827 100%);
+    --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
 }
 
 /* =======================
    BODY
 ======================= */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 /* =======================
    ADMIN CARD
 ======================= */
 .admin-container {
-    background-color: var(--card-bg);
+    background: var(--surface-soft);
     padding: 50px 60px;
     border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-soft);
     text-align: center;
     max-width: 450px;
     width: 90%;
-    transition: background-color 0.3s;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .admin-container h3 {
@@ -59,7 +86,7 @@ body {
     padding: 14px;
     margin-bottom: 20px;
     border-radius: 30px;
-    background-color: var(--primary-color);
+    background-color: var(--primary);
     color: #fff;
     text-decoration: none;
     font-size: 16px;
@@ -88,7 +115,7 @@ body {
     height: 42px;
     border-radius: 50%;
     border: none;
-    background-color: var(--primary-color);
+    background-color: var(--primary);
     cursor: pointer;
     transition: transform 0.3s;
 }

@@ -7,6 +7,8 @@
     --text-color: #333;
     --primary-color: #ff6b6b;
     --secondary-color: #4ecdc4;
+    --accent-blue: #3b82f6;
+    --accent-orange: #ff8c5a;
     --hover-color: #e85c5c;
 }
 
@@ -16,6 +18,8 @@ body.dark-mode {
     --text-color: #f5f5f5;
     --primary-color: #ff6b6b;
     --secondary-color: #4ecdc4;
+    --accent-blue: #60a5fa;
+    --accent-orange: #fb923c;
     --hover-color: #e85c5c;
 }
 
@@ -24,19 +28,47 @@ body.dark-mode {
 ========================= */
 body {
     margin: 0;
-    padding: 40px;
+    padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
 }
 
+header, .navbar, .header {
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+}
+
+.dashboard-shell {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 !important;
+}
+
+.dashboard-header {
+    box-sizing: border-box;
+    width: 100% !important;
+    margin: 0 0 35px;
+    padding: 28px 32px !important;
+}
+
+.restaurant-grid {
+    margin-top: 16px;
+}
+
 /* =========================
    CONTAINER
 ========================= */
 .admin-container {
-    max-width: 1200px;
+    max-width: 1240px;
     margin: 0 auto;
+    padding: 0 0 2rem;
 }
 
 /* =========================
@@ -59,16 +91,23 @@ body {
 }
 
 .restaurant-card {
-    background: var(--card-bg);
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 247, 247, 0.92) 100%);
     border-radius: 18px;
     overflow: hidden;
     box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(255, 107, 107, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .restaurant-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+    border-color: rgba(255, 107, 107, 0.24);
+}
+
+body.dark-mode .restaurant-card {
+    background: linear-gradient(135deg, #172132 0%, #121b2b 100%);
+    border-color: rgba(255,255,255,0.12);
 }
 
 .restaurant-image {
@@ -102,7 +141,7 @@ body {
 }
 
 .rating {
-    background: #fff4d6;
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.16) 0%, rgba(245, 158, 11, 0.16) 100%);
     color: #b06d00;
     padding: 4px 8px;
     border-radius: 999px;
@@ -133,24 +172,24 @@ body {
     text-decoration: none;
     display: inline-block;
     text-align: center;
-    transition: transform 0.2s, background-color 0.3s;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .action-btn.update {
-    background-color: var(--secondary-color);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-blue) 100%);
 }
 
 .action-btn.menu {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-orange) 100%);
 }
 
 .action-btn.delete {
-    background-color: #ff4b5c;
+    background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
 }
 
 .action-btn:hover {
     transform: translateY(-2px);
-    background-color: var(--hover-color);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.14);
 }
 
 /* =========================
@@ -171,4 +210,21 @@ body {
 
 .toggle-mode:hover {
     transform: scale(1.1);
+}
+
+/* Back link uses logout button color */
+.back-link,
+.back-link:link,
+.back-link:visited,
+.back-link:active,
+.back-link:focus {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link:hover,
+.back-link:focus {
+    color: var(--primary-dark);
+    text-decoration: underline;
 }

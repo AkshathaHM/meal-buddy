@@ -8,6 +8,7 @@
     --input-bg: #f9f9f9;
     --input-border: #ccc;
     --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
 }
 
 body.dark-mode {
@@ -17,6 +18,7 @@ body.dark-mode {
     --input-bg: #2a2a2a;
     --input-border: #555;
     --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
 }
 
 /* =======================
@@ -57,13 +59,17 @@ h3 {
    FORM CARD
 ======================= */
 form {
-    background-color: var(--card-bg);
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255,247,247,0.94) 100%);
     padding: 35px 40px;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
     transition: background-color 0.3s;
+}
+
+body.dark-mode form {
+    background: linear-gradient(135deg, #1b2433 0%, #141c2a 100%);
 }
 
 label {
@@ -101,7 +107,7 @@ button[type="submit"] {
     padding: 14px;
     border: none;
     border-radius: 30px;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #ff8c5a 100%);
     color: #fff;
     font-size: 16px;
     font-weight: bold;
@@ -110,8 +116,38 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #e85c5c;
+    background: linear-gradient(135deg, #e85c5c 0%, #ff6b6b 100%);
     transform: translateY(-3px);
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.cancel-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    border-radius: 30px;
+    border: 1px solid rgba(204, 204, 204, 0.6);
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.14) 0%, rgba(59, 130, 246, 0.12) 100%);
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.3s, border-color 0.3s;
+}
+
+.cancel-button:hover {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.22) 0%, rgba(59, 130, 246, 0.16) 100%);
+    border-color: rgba(0,0,0,0.12);
+    transform: translateY(-2px);
 }
 
 /* =======================
