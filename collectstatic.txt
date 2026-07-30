@@ -1,0 +1,2 @@
+
+0 static files copied to 'D:\Projects\Python\meal-buddy\staticfiles', 249 unmodified, 15 skipped due to conflict.
