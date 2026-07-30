@@ -3,7 +3,7 @@
     <div class="header-inner container">
         <a href="{% if logged_in_user and logged_in_user.role|lower == 'admin' %}{% url 'admin_home' %}{% elif logged_in_user and logged_in_user.role|lower == 'customer' %}{% url 'customer_home' %}{% else %}/{% endif %}" class="brand">
             <div class="brand-logo">
-                <img src="{% static 'Images/logo.avif' %}" alt="Meal Buddy logo" class="brand-logo-image" />
+                <img src="{% static 'images/logo.avif' %}" alt="Meal Buddy logo" class="brand-logo-image" />
             </div>
             <div class="brand-text">
                 <span class="brand-name">Meal Buddy</span>
