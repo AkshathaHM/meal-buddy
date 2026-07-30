@@ -68,7 +68,6 @@ pymongo==4.10.1
 python-dateutil==2.9.0.post0
 pytz==2025.2
 pyunormalize==16.0.0
-pywin32==307
 razorpay==2.0.0
 regex==2024.9.11
 requests==2.32.3
