@@ -541,7 +541,9 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(15, 23, 42, 0.45);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     padding: 16px;
     z-index: 1100;
 }
@@ -553,9 +555,14 @@ body::before {
 .confirm-modal-card {
     width: min(100%, 420px);
     background: #ffffff;
+    filter: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     border-radius: 20px;
     padding: 28px 26px;
     box-shadow: 0 30px 70px rgba(15, 23, 42, 0.16);
+    position: relative;
+    z-index: 1102;
     text-align: center;
 }
 

@@ -11,6 +11,7 @@
     background: #f7f7f7;
     font-size: 16px;
     line-height: 1.5;
+    --header-offset: 92px;
     --primary: #d42323;
     --primary-dark: #b71c1c;
     --surface: rgba(255, 255, 255, 0.88);
@@ -198,6 +199,7 @@ button {
 .page-main {
     flex: 1;
     width: 100%;
+    padding-top: var(--header-offset);
     padding-bottom: 1.5rem;
 }
 
@@ -246,10 +248,11 @@ button {
 }
 
 .site-header {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 20;
+    left: 0;
     width: 100%;
+    z-index: 1000;
     background: var(--header-bg);
     backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
@@ -954,7 +957,8 @@ body.dark-mode .rating-pill {
 }
 
 .footer-section {
-    margin-top: auto;
+    position: static;
+    width: 100%;
     padding: 4rem 0 2rem;
     background: #1c1c1c;
     color: #fff;
@@ -1045,40 +1049,36 @@ body.dark-mode .rating-pill {
 }
 
 .modal-overlay,
-.modal-backdrop {
+.modal-backdrop,
+.confirm-modal-overlay,
+#confirmModal,
+#modalOverlay {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    z-index: 999 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    z-index: 1100 !important;
     opacity: 0;
     transition: opacity 0.25s ease;
+}
+
+.modal-overlay.show,
+.modal-backdrop.show,
+.confirm-modal-overlay,
+#confirmModal:not([style*="display: none"]),
+#modalOverlay.visible {
+    opacity: 1 !important;
 }
 
 .modal {
     position: fixed;
     inset: 0;
-    z-index: 999;
+    z-index: 1101;
     pointer-events: none;
-}
-
-.modal-overlay,
-.modal-backdrop {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    z-index: 999 !important;
-    opacity: 0;
-    transition: opacity 0.25s ease;
 }
 
 .modal-card,
@@ -1090,7 +1090,7 @@ body.dark-mode .rating-pill {
     top: 52% !important;
     left: 50% !important;
     transform: translate(-50%, -48%) !important;
-    z-index: 1000 !important;
+    z-index: 1102 !important;
     margin-top: 20px !important;
 }
 
@@ -1100,6 +1100,9 @@ body.dark-mode .rating-pill {
     max-height: calc(100vh - 32px);
     overflow-y: auto;
     background: #fff;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     border-radius: 24px;
     padding: 0.75rem 1rem 0.8rem;
     box-shadow: 0 16px 36px rgba(15, 23, 42, 0.14);
@@ -1241,7 +1244,7 @@ body.dark-mode .rating-pill {
     top: 48% !important;
     left: 50% !important;
     transform: translate(-50%, -45%) !important;
-    z-index: 1000 !important;
+    z-index: 1102 !important;
     margin-top: 0 !important;
 }
 
@@ -1302,6 +1305,10 @@ body.dark-mode .rating-pill {
 }
 
 @media (max-width: 768px) {
+    :root {
+        --header-offset: 150px;
+    }
+
     .header-inner {
         flex-wrap: wrap;
         justify-content: center;
