@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static image_urls %}
 
 {% block title %}Manage Restaurants{% endblock %}
 
@@ -68,7 +68,7 @@
         <div class="restaurant-grid">
             {% for r in restaurantList %}
             <div class="restaurant-card">
-                <img src="{{ r.picture }}" alt="{{ r.name }}" class="restaurant-image">
+                <img src="{{ r.picture|normalize_image_url }}" alt="{{ r.name }}" class="restaurant-image">
                 <div class="restaurant-info">
                     <div class="restaurant-title-row">
                         <h3>{{ r.name }}</h3>
@@ -79,7 +79,7 @@
                         <button type="button" class="action-btn update open-update-modal"
                             data-restaurant-id="{{ r.id }}"
                             data-name="{{ r.name|escapejs }}"
-                            data-picture="{{ r.picture|escapejs }}"
+                            data-picture="{{ r.picture|normalize_image_url|escapejs }}"
                             data-cuisine="{{ r.cuisine|escapejs }}"
                             data-rating="{{ r.rating }}">
                             Update Info
@@ -127,7 +127,6 @@
         </div>
     </div>
 
-    {% block extra_scripts %}
     <script>
         const toggleBtn = document.querySelector('.toggle-mode');
         const confirmModal = document.getElementById('confirmModal');
@@ -320,5 +319,4 @@
             if (backdrop) backdrop.addEventListener('click', (e) => { if (e.target === backdrop) hideModal(); });
         })();
     </script>
-    {% endblock %}
 {% endblock %}

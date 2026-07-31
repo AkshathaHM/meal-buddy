@@ -15,16 +15,20 @@ function openModal(modal) {
     if (!modal) return;
     modal.classList.remove('hidden');
     modal.classList.add('show');
-    modalBackdrop.classList.remove('hidden');
-    modalBackdrop.classList.add('show');
+    if (modalBackdrop) {
+        modalBackdrop.classList.remove('hidden');
+        modalBackdrop.classList.add('show');
+    }
 }
 
 function closeModal(modal) {
     if (!modal || modal.classList.contains('hidden')) return;
     modal.classList.remove('show');
     modal.classList.add('close-animation');
-    modalBackdrop.classList.remove('show');
-    modalBackdrop.classList.add('hidden');
+    if (modalBackdrop) {
+        modalBackdrop.classList.remove('show');
+        modalBackdrop.classList.add('hidden');
+    }
     setTimeout(() => {
         modal.classList.add('hidden');
         modal.classList.remove('close-animation');
@@ -55,10 +59,12 @@ modalCloseButtons.forEach((button) => {
     });
 });
 
-modalBackdrop.addEventListener('click', (e) => {
-    // only close when clicking directly on the backdrop, not when clicks bubble from modal content
-    if (e.target === modalBackdrop) closeAllModals();
-});
+if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', (e) => {
+        // only close when clicking directly on the backdrop, not when clicks bubble from modal content
+        if (e.target === modalBackdrop) closeAllModals();
+    });
+}
 
 if (forgotLink) {
     forgotLink.addEventListener('click', () => {

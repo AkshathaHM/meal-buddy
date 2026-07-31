@@ -11,6 +11,7 @@
     background: #f7f7f7;
     font-size: 16px;
     line-height: 1.5;
+    --header-offset: 92px;
     --primary: #d42323;
     --primary-dark: #b71c1c;
     --surface: rgba(255, 255, 255, 0.88);
@@ -198,6 +199,7 @@ button {
 .page-main {
     flex: 1;
     width: 100%;
+    padding-top: var(--header-offset);
     padding-bottom: 1.5rem;
 }
 
@@ -246,10 +248,11 @@ button {
 }
 
 .site-header {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 20;
+    left: 0;
     width: 100%;
+    z-index: 1000;
     background: var(--header-bg);
     backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
@@ -954,7 +957,8 @@ body.dark-mode .rating-pill {
 }
 
 .footer-section {
-    margin-top: auto;
+    position: static;
+    width: 100%;
     padding: 4rem 0 2rem;
     background: #1c1c1c;
     color: #fff;
@@ -1302,6 +1306,10 @@ body.dark-mode .rating-pill {
 }
 
 @media (max-width: 768px) {
+    :root {
+        --header-offset: 150px;
+    }
+
     .header-inner {
         flex-wrap: wrap;
         justify-content: center;

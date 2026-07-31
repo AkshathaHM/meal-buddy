@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static image_urls %}
 {% block title %}Update Restaurant{% endblock %}
 {% block extra_styles %}
     <link rel="stylesheet" href="{% static 'update_restaurant.css' %}">
@@ -18,7 +18,7 @@
             <input type="text" name="name" value="{{ restaurant.name }}" required placeholder="Enter restaurant name">
 
             <label>Picture URL</label>
-            <input type="text" name="picture" value="{{ restaurant.picture }}" required placeholder="Enter picture URL">
+            <input type="text" name="picture" value="{{ restaurant.picture|normalize_image_url }}" required placeholder="Enter picture URL">
 
             <label>Cuisine</label>
             <input type="text" name="cuisine" value="{{ restaurant.cuisine }}" required placeholder="Enter cuisine type">

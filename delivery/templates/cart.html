@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static image_urls %}
 {% block title %}Your Cart{% endblock %}
 {% block extra_styles %}
     <link rel="stylesheet" href="{% static 'cart.css' %}">
@@ -25,7 +25,11 @@
             {% for item in itemList %}
             <div class="cart-card" data-item-id="{{ item.id }}">
                 <div class="image-box">
-                    <img src="{{ item.picture }}" alt="{{ item.name }}">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                    {% else %}
+                        <img src="{{ item.picture|normalize_image_url }}" alt="{{ item.name }}">
+                    {% endif %}
                 </div>
                 <div class="cart-details">
                     <div class="cart-top-row">

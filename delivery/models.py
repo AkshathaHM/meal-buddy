@@ -32,6 +32,7 @@ class Item(models.Model):
     price = models.FloatField()
     vegeterian = models.BooleanField(default=False)
     picture = models.URLField(max_length = 400, default='https://www.indiafilings.com/learn/wp-content/uploads/2024/08/How-to-Start-Food-Business.jpg')
+    image = models.ImageField(upload_to='menu_items/', blank=True, null=True)
 
 class Cart(models.Model):
     customer = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "cart")

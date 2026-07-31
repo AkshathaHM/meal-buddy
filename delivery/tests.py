@@ -1,13 +1,24 @@
 import json
 import time
+import tempfile
 from unittest.mock import patch
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from django.test import override_settings
 from django.urls import reverse
 from .models import Restaurant, User, Item, Cart, Order, OrderItem
 
 
 class AuthFlowTests(TestCase):
+    @override_settings(SESSION_COOKIE_AGE=3600, SESSION_SAVE_EVERY_REQUEST=True, SESSION_EXPIRE_AT_BROWSER_CLOSE=False)
+    def test_session_settings_use_one_hour_sliding_expiration(self):
+        from django.conf import settings
+
+        self.assertEqual(settings.SESSION_COOKIE_AGE, 3600)
+        self.assertTrue(settings.SESSION_SAVE_EVERY_REQUEST)
+        self.assertFalse(settings.SESSION_EXPIRE_AT_BROWSER_CLOSE)
+
     def test_signup_rejects_username_and_password_that_match(self):
         response = self.client.post(
             reverse('signup'),
@@ -69,7 +80,7 @@ class AuthFlowTests(TestCase):
         self.assertRedirects(response, reverse('customer_home'))
         self.assertTemplateUsed(response, 'customer_home.html')
 
-    def test_inactive_customer_session_redirects_to_home(self):
+    def test_inactive_customer_session_redirects_to_customer_login(self):
         user = User.objects.create(username='inactiveuser', password='Secret123', email='inactive@example.com', mobile='1111111111', address='X', role='customer')
         session = self.client.session
         session['user_id'] = user.id
@@ -78,10 +89,79 @@ class AuthFlowTests(TestCase):
         session['last_activity'] = int(time.time()) - 3700
         session.save()
 
-        response = self.client.get(reverse('customer_home'))
+        response = self.client.get(reverse('customer_home'), follow=True)
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('home'))
+        self.assertRedirects(response, reverse('open_signin'))
+        self.assertContains(response, 'Your session has expired. Please login again.')
+
+    def test_inactive_admin_session_redirects_to_admin_login(self):
+        user = User.objects.create(username='inactiveadmin', password='Secret123', email='inactive-admin@example.com', mobile='1111111111', address='X', role='admin')
+        session = self.client.session
+        session['user_id'] = user.id
+        session['username'] = user.username
+        session['role'] = 'admin'
+        session['last_activity'] = int(time.time()) - 3700
+        session.save()
+
+        response = self.client.get(reverse('admin_home'), follow=True)
+
+        self.assertRedirects(response, reverse('open_admin_signin'))
+        self.assertContains(response, 'Your session has expired. Please login again.')
+
+    def test_inactive_django_admin_session_redirects_to_admin_login(self):
+        session = self.client.session
+        session['_auth_user_id'] = '1'
+        session['_auth_user_backend'] = 'django.contrib.auth.backends.ModelBackend'
+        session['_auth_user_hash'] = 'expired'
+        session['last_activity'] = int(time.time()) - 3700
+        session.save()
+
+        response = self.client.get('/admin/', follow=True)
+
+        self.assertRedirects(response, '/admin/login/')
+        self.assertContains(response, 'Your session has expired. Please login again.')
+
+    def test_admin_revenue_includes_only_successfully_paid_orders(self):
+        admin = User.objects.create(username='revenueadmin', password='Admin123', email='revenue-admin@example.com', mobile='1111111111', address='X', role='admin')
+        customer = User.objects.create(username='revenuecustomer', password='Secret123', email='revenue-customer@example.com', mobile='2222222222', address='Y', role='customer')
+        Order.objects.create(customer=customer, total_amount=125.50, payment_status='Paid')
+        Order.objects.create(customer=customer, total_amount=80.00, payment_status='Pending')
+
+        session = self.client.session
+        session['user_id'] = admin.id
+        session['username'] = admin.username
+        session['role'] = 'admin'
+        session.save()
+
+        response = self.client.get(reverse('admin_home'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '125.50')
+        self.assertNotContains(response, '205.50')
+
+    def test_admin_orders_show_success_for_paid_and_pending_for_unpaid(self):
+        admin = User.objects.create(username='ordersadmin', password='Admin123', email='orders-admin@example.com', mobile='1111111111', address='X', role='admin')
+        paid_customer = User.objects.create(username='paidcustomer', password='Secret123', email='paid@example.com', mobile='2222222222', address='Y', role='customer')
+        pending_customer = User.objects.create(username='pendingcustomer', password='Secret123', email='pending@example.com', mobile='3333333333', address='Z', role='customer')
+        Order.objects.create(customer=paid_customer, total_amount=125.50, payment_status='Paid')
+        restaurant = Restaurant.objects.create(name='Pending Kitchen', cuisine='Indian', rating=4.5)
+        item = Item.objects.create(restaurant=restaurant, name='Pending Item', description='Pending order item', price=80.00, vegeterian=False)
+        pending_cart = Cart.objects.create(customer=pending_customer)
+        pending_cart.items.add(item)
+
+        session = self.client.session
+        session['user_id'] = admin.id
+        session['username'] = admin.username
+        session['role'] = 'admin'
+        session.save()
+
+        response = self.client.get(reverse('open_orders'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Success')
+        self.assertContains(response, 'Pending')
+        self.assertContains(response, '125.50')
+        self.assertContains(response, '80.00')
 
     def test_signin_allows_matching_credentials_without_role_error(self):
         User.objects.create(username='matchuser', password='Match123', email='match@example.com', mobile='2223334445', address='Match Street', role='customer')
@@ -208,6 +288,54 @@ class AuthFlowTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'open-add-item-btn')
         self.assertContains(response, 'id="addItemForm"')
+
+    def test_update_menu_item_uploads_image_and_preserves_it_without_replacement(self):
+        user = User.objects.create(username='adminimage', password='Admin123', email='admin4@example.com', mobile='1234567893', address='Main Street', role='admin')
+        session = self.client.session
+        session['user_id'] = user.id
+        session['username'] = user.username
+        session['role'] = user.role
+        session.save()
+
+        restaurant = Restaurant.objects.create(name='Image Kitchen', cuisine='Italian', rating=4.8)
+        item = Item.objects.create(restaurant=restaurant, name='Image Pasta', description='Fresh pasta', price=150.0)
+        image_data = (
+            b'\x89PNG\r\n\x1a\n'
+            b'\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01'
+            b'\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDAT\x08\xd7c\xf8\xcf\xc0\xf0\x1f\x00\x05\x00\x01\xff\x89\x99=\x1d\x00\x00\x00\x00IEND\xaeB`\x82'
+        )
+
+        with tempfile.TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root):
+                response = self.client.post(
+                    reverse('update_menu_item', args=[item.id]),
+                    {
+                        'name': item.name,
+                        'description': item.description,
+                        'price': item.price,
+                        'picture': '',
+                        'image': SimpleUploadedFile('pasta.png', image_data, content_type='image/png'),
+                    },
+                )
+                self.assertRedirects(response, reverse('open_update_menu', args=[restaurant.id]))
+                item.refresh_from_db()
+                saved_image_name = item.image.name
+                self.assertTrue(saved_image_name.startswith('menu_items/'))
+
+                self.client.post(
+                    reverse('update_menu_item', args=[item.id]),
+                    {
+                        'name': 'Updated Pasta',
+                        'description': item.description,
+                        'price': item.price,
+                        'picture': '',
+                    },
+                )
+                item.refresh_from_db()
+                self.assertEqual(item.image.name, saved_image_name)
+
+                page = self.client.get(reverse('open_update_menu', args=[restaurant.id]))
+                self.assertContains(page, item.image.url)
 
     def test_signup_as_admin_redirects_to_admin_home(self):
         response = self.client.post(

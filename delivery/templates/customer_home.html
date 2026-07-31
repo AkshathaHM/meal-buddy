@@ -1,5 +1,5 @@
 ﻿{% extends 'base.html' %}
-{% load static %}
+{% load static image_urls %}
 
 {% block title %}Restaurants | Meal Buddy{% endblock %}
 
@@ -24,7 +24,7 @@
             {% for r in restaurantList %}
                 <div class="restaurant-card">
                     <div class="image-box">
-                        <img src="{{ r.picture }}" alt="{{ r.name }}">
+                        <img src="{{ r.picture|normalize_image_url }}" alt="{{ r.name }}">
                     </div>
                     <div class="restaurant-details">
                         <h2>{{ r.name }}</h2>
@@ -38,33 +38,3 @@
     </div>
 {% endblock %}
 
-{% block extra_scripts %}
-    <script>
-        var options = {
-            "key": "{{ rzp_test_lT6VV3Hhr4ayCQ }}",  // Razorpay API key
-            "amount": "{{ total_price|floatformat:2|add:'0.00'|floatformat:2 }}00", // Amount in paisa
-            "currency": "INR",
-            "name": "Meal Buddy",
-            "description": "Order Payment",
-            "order_id": "{{ order_id }}",  // Razorpay order ID
-            "handler": function (response) {
-                alert("Payment Successful!");
-                window.location.href = "{% url 'orders' username %}";
-            },
-            "prefill": {
-                "name": "{{ username }}",
-                "email": "customer@example.com",
-                "contact": "9999999999"
-            },
-            "theme": {
-                "color": "#528FF0"
-            }
-        };
-        var rzp = new Razorpay(options);
-
-        document.getElementById('rzp-button').onclick = function(e) {
-            rzp.open();
-            e.preventDefault();
-        }
-    </script>
-{% endblock %}

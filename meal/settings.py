@@ -47,6 +47,12 @@ MIDDLEWARE = [
     'delivery.middleware.InactivityLogoutMiddleware',
 ]
 
+# Keep authenticated sessions alive only while the user is active.
+SESSION_COOKIE_AGE = 3600
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_INACTIVITY_TIMEOUT = SESSION_COOKIE_AGE
+
 ROOT_URLCONF = 'meal.urls'
 
 TEMPLATES = [
@@ -109,6 +115,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'delivery' / 'static',
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

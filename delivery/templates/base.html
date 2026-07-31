@@ -17,6 +17,13 @@
         {% include 'includes/header.html' %}
 
         <main class="page-main">
+            {% if messages %}
+                <div class="messages" role="alert">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags|default:''|escape }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             {% block content %}{% endblock %}
         </main>
 

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static image_urls %}
 {% block title %}Update Menu{% endblock %}
 {% block extra_styles %}
     <link rel="stylesheet" href="{% static 'css/admin_home.css' %}">
@@ -23,7 +23,11 @@
                 <div class="menu-card-grid">
                     {% for item in itemList %}
                     <div class="menu-item-card">
-                        <img class="menu-item-image" src="{{ item.picture }}" alt="{{ item.name }}">
+                        {% if item.image %}
+                            <img class="menu-item-image" src="{{ item.image.url }}" alt="{{ item.name }}">
+                        {% else %}
+                            <img class="menu-item-image" src="{{ item.picture|normalize_image_url }}" alt="{{ item.name }}">
+                        {% endif %}
                         <div class="menu-item-content">
                             <div class="menu-item-top">
                                 <h3>{{ item.name }}</h3>
@@ -46,7 +50,7 @@
                                     data-item-description="{{ item.description|escapejs }}"
                                     data-item-price="{{ item.price }}"
                                     data-item-vegeterian="{{ item.vegeterian|yesno:'true,false' }}"
-                                    data-item-picture="{{ item.picture|escapejs }}">
+                                    data-item-picture="{{ item.picture|normalize_image_url|escapejs }}">
                                     Update
                                 </button>
                                 <button type="button" class="menu-card-btn btn-danger open-delete-item-btn"
@@ -82,7 +86,7 @@
             <div class="popup-header">
                 <h2 id="updatePopupTitle">Update Menu Item</h2>
             </div>
-            <form id="updateItemForm" method="post" class="popup-form">
+            <form id="updateItemForm" method="post" enctype="multipart/form-data" class="popup-form">
                 {% csrf_token %}
                 <input type="hidden" name="item_id" id="popupItemId" value="" />
 
@@ -103,6 +107,9 @@
                 <label>Image URL</label>
                 <input type="url" name="picture" id="popupItemPicture" placeholder="Enter image URL">
 
+                <label>Upload Image</label>
+                <input type="file" name="image" id="popupItemImage" accept="image/*">
+
                 <div class="popup-actions">
                     <button type="submit" class="btn btn-primary">Update</button>
                     <button type="button" class="btn btn-secondary" id="updateCancelBtn">Cancel</button>
@@ -117,7 +124,7 @@
             <div class="popup-header">
                 <h2 id="addPopupTitle">Add Menu Item</h2>
             </div>
-            <form id="addItemForm" class="popup-form" action="{% url 'update_menu' restaurant.id %}" method="post">
+            <form id="addItemForm" class="popup-form" action="{% url 'update_menu' restaurant.id %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <label>Item Name</label>
@@ -136,6 +143,8 @@
 
                 <label>Image URL</label>
                     <input type="url" name="picture" placeholder="Enter image URL">
+                <label>Upload Image</label>
+                    <input type="file" name="image" accept="image/*">
                 </form>
             </div>
         </div>
@@ -267,7 +276,7 @@
             });
         });
 
-        [updateCancelBtn, updateCloseBtn, addCancelBtn, addCloseBtn, deleteCancelBtn, deleteCloseBtn].forEach((el) => {
+        [updateCancelBtn, updateCloseBtn, addCancelBtn, addCloseBtn, deleteCancelBtn, deleteCloseBtn].filter(Boolean).forEach((el) => {
             el.addEventListener('click', () => closeAllPopups());
         });
 

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static image_urls %}
 {% block title %}Menu{% endblock %}
 {% block extra_styles %}
     <link rel="stylesheet" href="{% static 'customer_menu.css' %}">
@@ -25,7 +25,11 @@
     <div class="menu-grid">
         {% for item in itemList %}
         <div class="menu-card">
-            <img class="menu-image" src="{{ item.picture }}" alt="{{ item.name }}">
+            {% if item.image %}
+                <img class="menu-image" src="{{ item.image.url }}" alt="{{ item.name }}">
+            {% else %}
+                <img class="menu-image" src="{{ item.picture|normalize_image_url }}" alt="{{ item.name }}">
+            {% endif %}
             <div class="menu-content">
                 <div class="menu-top-row">
                     <h4>{{ item.name }}</h4>

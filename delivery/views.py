@@ -4,6 +4,7 @@ import time
 import razorpay
 from django.conf import settings
 from django.contrib import messages
+from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
@@ -63,13 +64,10 @@ def admin_home(request):
     user_count = User.objects.count()
     order_count = Cart.objects.count()
 
-    # compute revenue by summing prices of items in all carts (completed carts are represented as Cart records)
-    total_revenue = 0.0
-    for cart in Cart.objects.prefetch_related('items').all():
-        total_revenue += sum(float(item.price) for item in cart.items.all())
+    total_revenue = Order.objects.filter(payment_status='Paid').aggregate(total=Sum('total_amount'))['total'] or 0
 
     # format revenue for display (no currency symbol)
-    total_revenue_display = f"{total_revenue:,.2f}"
+    total_revenue_display = f"{float(total_revenue):,.2f}"
 
     context = {
         'username': user.username,
@@ -307,8 +305,13 @@ def open_orders(request):
     user = _get_logged_in_user(request)
     if not user or _normalize_role(user.role) != 'admin':
         return redirect('open_admin_signin')
-    carts = Cart.objects.prefetch_related('items','customer').all()
-    return render(request, 'admin_orders.html', {'username': user.username, 'carts': carts})
+    orders = Order.objects.filter(payment_status='Paid').select_related('customer').prefetch_related('items').order_by('-created_at')
+    pending_carts = Cart.objects.filter(items__isnull=False).distinct().prefetch_related('items', 'customer')
+    return render(request, 'admin_orders.html', {
+        'username': user.username,
+        'orders': orders,
+        'pending_carts': pending_carts,
+    })
 
 
 def open_users(request):
@@ -428,7 +431,8 @@ def update_menu(request, restaurant_id):
         description = request.POST.get('description')
         price = request.POST.get('price')
         vegeterian = request.POST.get('vegeterian') == 'on'
-        picture = request.POST.get('picture')
+        picture = request.POST.get('picture', '').strip()
+        image = request.FILES.get('image')
         
         try:
             Item.objects.get(name = name)
@@ -440,7 +444,8 @@ def update_menu(request, restaurant_id):
                 description = description,
                 price = price,
                 vegeterian = vegeterian,
-                picture = picture,
+                picture = picture or Item._meta.get_field('picture').default,
+                image = image,
             )
         return redirect('open_update_menu', restaurant_id=restaurant.id)
     return render(request, 'update_menu.html', {"itemList": restaurant.items.all(), "restaurant": restaurant, 'username': user.username})
@@ -456,7 +461,13 @@ def update_menu_item(request, item_id):
         item.description = request.POST.get('description', item.description)
         item.price = request.POST.get('price', item.price)
         item.vegeterian = request.POST.get('vegeterian') == 'on'
-        item.picture = request.POST.get('picture', item.picture)
+        picture = request.POST.get('picture', '').strip()
+        image = request.FILES.get('image')
+        if image:
+            item.image = image
+        elif picture:
+            item.picture = picture
+            item.image.delete(save=False)
         item.save()
     return redirect('open_update_menu', restaurant_id=item.restaurant.id)
 

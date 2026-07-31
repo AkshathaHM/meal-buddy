@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static image_urls %}
 {% block title %}Order History{% endblock %}
 {% block extra_styles %}
     <link rel="stylesheet" href="{% static 'order.css' %}">
@@ -30,7 +30,7 @@
                         <div class="order-card__media">
                             {% with first_item=order.items.first %}
                                 {% if first_item and first_item.picture %}
-                                    <img src="{{ first_item.picture }}" alt="{{ first_item.name }}">
+                                    <img src="{{ first_item.picture|normalize_image_url }}" alt="{{ first_item.name }}">
                                 {% else %}
                                     <div class="order-card__placeholder">🍽️</div>
                                 {% endif %}
