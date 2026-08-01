@@ -27,14 +27,6 @@ Explore the deployed application here:
   <img src="docs/meal-buddy-preview.svg" alt="Meal Buddy preview illustration" width="100%" />
 </p>
 
-## Screenshots
-
-<p align="center">
-  <img src="delivery/Images/pizza.jpg" alt="Pizza item preview" width="30%" />
-  <img src="delivery/Images/burger.jpg" alt="Burger item preview" width="30%" />
-  <img src="delivery/Images/res1.jpg" alt="Restaurant preview" width="30%" />
-</p>
-
 ## Why This Project Stands Out
 
 Meal Buddy goes beyond a basic CRUD application by combining multiple real-world features into one platform:
