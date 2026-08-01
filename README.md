@@ -1,4 +1,16 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/Meal%20Buddy-🍽️%20Smart%20Food%20Ordering%20Platform-ff6b6b?style=for-the-badge&logo=django&logoColor=white" alt="Meal Buddy Banner" />
+</p>
+
 # Meal Buddy
+
+<p align="center">
+  <a href="https://meal-buddy-2e80.onrender.com/"><img src="https://img.shields.io/badge/Live%20Demo-Visit%20App-brightgreen?style=for-the-badge" alt="Live Demo" /></a>
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Django-6.0-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django" />
+  <img src="https://img.shields.io/badge/Render-Deployed-46E3B7?style=for-the-badge&logo=render&logoColor=white" alt="Render" />
+  <img src="https://img.shields.io/badge/Payments-Razorpay-0A66C2?style=for-the-badge" alt="Razorpay" />
+</p>
 
 Meal Buddy is a full-stack food ordering and restaurant management web application built with Django. It provides a seamless experience for customers to browse restaurants, explore menus, add items to the cart, place orders, and complete payments, while enabling administrators to manage restaurants, menu items, users, and order workflows from a centralized dashboard.
 
