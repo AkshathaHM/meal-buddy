@@ -124,6 +124,11 @@ This flow reflects a real-world food delivery platform structure, making the pro
 
 ## Installation and Setup
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Setup-Local%20Development-blue?style=for-the-badge" alt="Local Setup" />
+  <img src="https://img.shields.io/badge/Contributions-Welcome-orange?style=for-the-badge" alt="Contributions Welcome" />
+</p>
+
 ### Prerequisites
 - Python 3.10+
 - pip
