@@ -21,12 +21,6 @@ This project demonstrates practical skills in backend development, database desi
 Explore the deployed application here:
 - Render Demo: https://meal-buddy-2e80.onrender.com/
 
-## Project Preview
-
-<p align="center">
-  <img src="docs/meal-buddy-preview.svg" alt="Meal Buddy preview illustration" width="100%" />
-</p>
-
 ## Why This Project Stands Out
 
 Meal Buddy goes beyond a basic CRUD application by combining multiple real-world features into one platform:
