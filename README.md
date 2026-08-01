@@ -21,6 +21,12 @@ This project demonstrates practical skills in backend development, database desi
 Explore the deployed application here:
 - Render Demo: https://meal-buddy-2e80.onrender.com/
 
+## Project Preview
+
+<p align="center">
+  <img src="docs/meal-buddy-preview.svg" alt="Meal Buddy preview illustration" width="100%" />
+</p>
+
 ## Why This Project Stands Out
 
 Meal Buddy goes beyond a basic CRUD application by combining multiple real-world features into one platform:
@@ -84,6 +90,14 @@ meal-buddy/
 ```
 
 ## How the Application Works
+
+```text
+User → Sign In / Sign Up → Browse Restaurants → View Menu → Add to Cart → Checkout → Payment → Order Confirmation
+                                            ↑
+                                            │
+                                    Admin Dashboard
+                                    Manage Restaurants / Menu / Orders / Users
+```
 
 1. A user visits the landing page and chooses to sign up or log in.
 2. The system identifies the user role as either customer or admin.

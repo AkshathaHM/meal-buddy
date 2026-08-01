@@ -1,0 +1,32 @@
+<svg width="1200" height="650" viewBox="0 0 1200 650" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="650" rx="24" fill="#fff7f2"/>
+  <rect x="40" y="40" width="1120" height="570" rx="24" fill="#ffffff" stroke="#ffd1b3" stroke-width="3"/>
+  <rect x="80" y="95" width="310" height="420" rx="20" fill="#fff3e8"/>
+  <rect x="110" y="130" width="250" height="40" rx="10" fill="#ff7b54"/>
+  <rect x="110" y="190" width="180" height="20" rx="10" fill="#ffb27a"/>
+  <rect x="110" y="225" width="220" height="20" rx="10" fill="#ffd1b3"/>
+  <rect x="110" y="270" width="240" height="95" rx="14" fill="#ffffff" stroke="#ffd1b3"/>
+  <circle cx="145" cy="318" r="20" fill="#ff7b54"/>
+  <rect x="180" y="300" width="110" height="14" rx="7" fill="#ffb27a"/>
+  <rect x="180" y="325" width="90" height="12" rx="6" fill="#ffd1b3"/>
+
+  <rect x="430" y="95" width="310" height="420" rx="20" fill="#fff3e8"/>
+  <rect x="460" y="130" width="250" height="35" rx="10" fill="#ff7b54"/>
+  <rect x="460" y="190" width="170" height="18" rx="9" fill="#ffb27a"/>
+  <rect x="460" y="220" width="220" height="18" rx="9" fill="#ffd1b3"/>
+  <rect x="460" y="260" width="240" height="110" rx="16" fill="#ffffff" stroke="#ffd1b3"/>
+  <rect x="490" y="290" width="120" height="18" rx="9" fill="#ff7b54"/>
+  <rect x="490" y="320" width="90" height="14" rx="7" fill="#ffd1b3"/>
+  <rect x="620" y="290" width="60" height="50" rx="10" fill="#ffb27a"/>
+
+  <rect x="780" y="95" width="310" height="420" rx="20" fill="#fff3e8"/>
+  <rect x="810" y="130" width="250" height="35" rx="10" fill="#ff7b54"/>
+  <rect x="810" y="190" width="170" height="18" rx="9" fill="#ffb27a"/>
+  <rect x="810" y="220" width="220" height="18" rx="9" fill="#ffd1b3"/>
+  <rect x="810" y="260" width="240" height="110" rx="16" fill="#ffffff" stroke="#ffd1b3"/>
+  <rect x="840" y="288" width="180" height="15" rx="7" fill="#ff7b54"/>
+  <rect x="840" y="315" width="150" height="13" rx="6" fill="#ffd1b3"/>
+  <rect x="840" y="338" width="130" height="13" rx="6" fill="#ffd1b3"/>
+
+  <text x="600" y="575" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700" fill="#ff6b35">Meal Buddy • Seamless Food Ordering Experience</text>
+</svg>
