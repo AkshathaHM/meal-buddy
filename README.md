@@ -50,6 +50,13 @@ This makes it an excellent example of a practical, user-centric web application 
 
 ## Key Features
 
+| Area | Highlights |
+| --- | --- |
+| Customer Experience | Signup/login, restaurant browsing, menu exploration, cart management |
+| Ordering Flow | Checkout, order placement, payment handling, order tracking |
+| Admin Control | Restaurant and menu management, user oversight, order monitoring |
+| Technical Strength | Role-based access, session handling, reusable templates, deployment-ready setup |
+
 ### Customer Features
 - User signup and login
 - Restaurant discovery and menu browsing
@@ -171,6 +178,14 @@ It is a strong portfolio project for roles such as:
 
 Built with passion and a focus on practical software development by Akshatha H M.
 
-## Repository
+## Connect
 
-GitHub Repository: https://github.com/AkshathaHM/meal-buddy
+- GitHub: https://github.com/AkshathaHM
+- Project Repository: https://github.com/AkshathaHM/meal-buddy
+- Live Demo: https://meal-buddy-2e80.onrender.com/
+
+---
+
+<p align="center">
+  <i>Thank you for exploring Meal Buddy.</i>
+</p>
